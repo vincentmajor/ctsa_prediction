@@ -1,0 +1,7 @@
+## any slurm job logs
+slurm-*.out
+
+## nothing in data directory except all_data files
+data/*
+!data/all_medline_post2000.txt
+
