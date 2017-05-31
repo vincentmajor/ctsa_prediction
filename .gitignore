@@ -1,7 +1,16 @@
-## any slurm job logs
+## no slurm prefixed scripts or slurm job logs
 slurm-*.out
+slurm_*.sh
 
-## nothing in data directory except all_data files
-data/*
-!data/all_medline_post2000.txt
+## nothing in data directory
+data/
 
+## nothing in results/embeddings
+results/embeddings/*
+
+## no software
+word2vec
+fastText
+
+## no logs
+logs
