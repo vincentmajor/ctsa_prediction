@@ -3,7 +3,11 @@ slurm-*.out
 slurm_*.sh
 
 ## nothing in data directory
-data/
+data/*
+!data/labeled
+data/labeled/*
+!data/labeled/ctsa_pmids_labels.csv
+!data/labeled/ctsa_raw.xml
 
 ## nothing in results/embeddings
 results/embeddings/*
