@@ -109,8 +109,11 @@ print(df_labels.shape)
 
 #### Preprocess
 ## now apply processing function to the real df
-df["output"] = process(df)[0] # [0] for output not failures
-print df.shape
+df_labels["output"] = process(df_labels)[0] # [0] for output not failures
+print df_labels.shape
+#df["output"] = process(df)[0] # [0] for output not failures
+#print df.shape
+#print df.head()
 
 ## investigate failures!
 #failures = process_documents(df)[1]
@@ -119,12 +122,12 @@ print df.shape
 #df_failures.head()
 
 ## make a copy and filter for non null output strings
-df_tosave = df.copy()[df['output'].notnull()]
+df_tosave = df_labels.copy()[df_labels['output'].notnull()]
+#df_tosave = df.copy()[df['output'].notnull()]
 df_tosave.drop('text', axis=1, inplace=True)
 print df_tosave.shape
 
 df_tosave.to_csv(filename_out, sep = ",", header=False, index=False, quoting=csv.QUOTE_NONE)
 ## save without header or index/rownames or quotes around the string.
-
 
 print "Done!"

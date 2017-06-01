@@ -1,59 +1,43 @@
 #!/bin/bash
-#SBATCH --job-name=supervised_predict_5fold
-#SBATCH --nodes=1
-#SBATCH --cpus-per-task=1
-#SBATCH --time=01:00:00
-#SBATCH --mem=16GB
-# mail alert at start, end and abortion of execution
-#SBATCH --mail-type=FAIL
-#SBATCH --mail-user=vjm261@nyu.edu
 
-## start in /home/vjm261/ctsa_fastext
-hostname
-pwd
+VECTORBASE="results/embeddings/"
+OUTBASE="results/models/"
+## ensure output dir exists
+mkdir -p OUTBASE
 
-#$1 model vectors path
-#$2 dimensions
-####$2 training data
-####$3 testing data
+TRAINPATH="data/labeled/ctsa_fasttext_input_"
+TESTPATH="data/labeled/ctsa_fasttext_input_"
 
-VECTORS=$1
-OUTBASE=$VECTORS"_results_"
-TRAINPATH="/scratch/vjm261/ctsa_fasttext/data/labeled/5_fold/ctsa_labeled_fasttext_trainset_"
-TESTPATH="/scratch/vjm261/ctsa_fasttext/data/labeled/5_fold/ctsa_labeled_fasttext_testset_"
-#echo "$OUTBASE"
-#echo "$TRAINPATH"
-#echo "$TESTPATH"
-
-for i in {1..5}
+## iterate
+#for i in {1..5} ## for cross validation
+for VECTORS in fasttext_skip_hier word2vec_skip_hier word2vec_cbow_hier
 do
-    #echo "$i"
-    OUT="$OUTBASE$i"
-    #echo "$OUT"
+    ## train on all, test on all
+    TRAIN=$TRAINPATH"wholeset.txt"
+    TEST=$TRAIN
+
+    ## example about how to perform cross validation
+    #TRAIN=$TRAINPATH$i".txt"
+    #TEST=$TESTPATH$i".txt"
     
-    PROBS=$OUT".txt"
-    #echo "$PROBS"    
+    MODEL=$OUTBASE$VECTORS"_model"
     
-    TRAIN=$TRAINPATH$i".txt"
-    TEST=$TESTPATH$i".txt"
-    #echo "$TRAIN"
-    #echo "$TEST"
+    echo $TRAIN
+    echo $MODEL
+    echo $VECTORS
+    echo $TEST
     
     ## learn the model with pretrainedVectors
-    fastText/fasttext supervised -input $TRAIN -output $OUT -pretrainedVectors $VECTORS -dim $2
+    fastText/fasttext supervised -input $TRAIN -output $MODEL -pretrainedVectors $VECTORBASE$VECTORS".vec" -dim 200
     
     ## precision recall
-    fastText/fasttext test $OUT".bin" $TEST 1
+    fastText/fasttext test $MODEL".bin" $TEST 1
     
     ## test and save to file
-    fastText/fasttext predict-prob $OUT".bin" $TEST 3 > $PROBS
+    fastText/fasttext predict-prob $MODEL".bin" $TEST 3 > $MODEL"_predictions.txt"
+    
+    ## now call R to extract probabilities, save a tidy format and AUC plot
+    Rscript 4_general_extract_predictions.R $MODEL"_predictions.txt" $TEST
 done
 
-echo $OUTBASE
-echo $TEST
-
-## now call R 5_supervised_extract_predictions.R to do the work
-module load r/intel/3.3.2
-Rscript 5_supervised_extract_predictions.R $OUTBASE $TESTPATH 5
-
-echo "Done"
+echo "Done!"
