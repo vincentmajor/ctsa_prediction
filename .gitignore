@@ -12,6 +12,7 @@ data/labeled/*
 ## nothing in results/embeddings
 results/embeddings/*
 results/models/*
+!results/models/*.png
 
 ## no software
 word2vec

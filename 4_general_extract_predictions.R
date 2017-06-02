@@ -49,6 +49,12 @@ extract_predictions = function(path.results, path.test){
   ## now AUC
   
   auc.matrix = matrix(0, nrow = 1, ncol = 3)
+  
+  col_vec = c('cornflowerblue', 'forestgreen', 'tomato')
+  png(gsub(".txt", ".png", path.results), width = 6, height = 6, units = "in", res = 300)
+  plot(c(0,1), c(0,1), type = 'n', ylab = "True positive rate", xlab = "False positive rate", xaxs = 'i', yaxs = 'i', cex.lab = 1.2)
+  #plot(c(0,1), c(0,1), xaxs='i', yaxs='i', type = 'n', , cex.lab = 1.4, yaxs='i', xaxs='i')
+  grid(lty = 'solid'); abline(0,1)
   for(class in 1:(ncol(df)-1)){
     truth = as.integer(df[,ncol(df)] == class)
     probs = as.numeric(df[,class])
@@ -57,13 +63,12 @@ extract_predictions = function(path.results, path.test){
     auc.matrix[1,class] = ROCR::performance(pred, measure = 'auc')@y.values[[1]]
     roc = ROCR::performance(pred, measure = 'tpr', x.measure = 'fpr')
     
-    png(gsub(".txt", ".png", path.results), width = 6, height = 6, units = "in", res = 300)
-    plot(roc, ylim = c(0,1), xlim = c(0,1), col = 'white', cex.lab = 1.4, yaxs='i', xaxs='i')
-    grid(lty = 'solid')
-    abline(0,1)
-    lines(roc@x.values[[1]], roc@y.values[[1]], col = grey(0.2, alpha = 0.5), lwd = 4)
-    dev.off()
+    lines(roc@x.values[[1]], roc@y.values[[1]], col = col_vec[class], lwd = 4)
   }
+  legend('bottomright',
+  	legend = c("Class 1","Class 2", "Class 3"),
+        col = col_vec[], lwd = 4)
+  dev.off()
   write.csv(auc.matrix, gsub(".txt", "auc_matrix.csv", path.results), row.names = F)
   
 }
