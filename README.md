@@ -18,6 +18,7 @@ The bash script [`1_download_pubmed_and_process.sh`](https://github.com/vincentm
 1. Downloads ***all*** MEDLINE records from the MEDLINE [baseline ftp site](ftp://ftp.ncbi.nlm.nih.gov/pubmed/baseline/),
 2. Calls a R script (`1_extract_id_year_title_abstract_from_raw_xml.R`) to extract the article data (PMID, year, title and abstract) from the raw XML, and
 3. Calls a python script (`1_process_text.py`) that processes the intermediate file created by R and saves a file ready for input into `word2vec`. 
+
 The output of this script is a `data/` directory that contains `raw/`, `extracted/`, and `processed/` subdirectories and one 14 GB text file, `all_medline_post2000.txt`.
 
 **DO NOT RUN THIS SCRIPT WITHOUT PLANNING!** Executing this script takes approximately 24 hours and requires at least 250 GB of storage (the raw XML files are 182 GB of that). Although if you want to filter to a different set of articles (for example, a different date range or from a specific set of journals) or process the text differently, the supplied code should provide a solid starting point. 
