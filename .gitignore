@@ -20,3 +20,8 @@ fastText
 
 ## no logs
 logs
+
+## no compressed files in head
+*.gz
+
+
