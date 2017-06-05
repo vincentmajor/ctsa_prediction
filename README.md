@@ -8,6 +8,10 @@
 
 A manuscript has been submitted to IEEE International Conference on Health Informatics (ICHI) 2017. A preprint is available on [arXiv](https://arxiv.org/abs/1705.06262).
 
+## zenodo data repository
+
+Due to the large size of the raw data and the computational expense of learning embeddings, the corpus of 10.5 million MEDLINE documents and three sets of word embeddings are available for download in a [zenodo repository](zenodo.org/record/802965). To replicate these files, two scripts are providedL 1) `1_download_pubmed_and_process.sh` which downloads and processes the raw MEDLINE data, and 2) `2_learn_embeddings.sh` which learns the embeddings. Both scripts are described below.
+
 ## Contents
 
 This repo contains a mixture of the real scripts used to create the results and some example scripts to help others. 
@@ -23,7 +27,7 @@ The output of this script is a `data/` directory that contains `raw/`, `extracte
 
 **DO NOT RUN THIS SCRIPT WITHOUT PLANNING!** Executing this script takes approximately 24 hours and requires at least 250 GB of storage (the raw XML files are 182 GB of that). Although if you want to filter to a different set of articles (for example, a different date range or from a specific set of journals) or process the text differently, the supplied code should provide a solid starting point. 
 
-NOTE: the `data/all_medline_post2000.txt` file is not included in this repo due to size limitations. It is however, available for download [here](drive.google.com) compressed.
+NOTE: the `data/all_medline_post2000.txt` file is not included in this repo due to size limitations. It is however, available for download [here](zenodo.org/record/802965) compressed.
 
 ### 2. Learning embeddings
 
@@ -39,7 +43,7 @@ The output of this script is three sets of embeddings in vector form.
 
 **DO NOT RUN THIS SCRIPT WITHOUT PLANNING!** Executing this script takes approximately 26 hours on a machine with 64 GB of RAM and 28 threads. This script supplies the number of threads available as an argument to both `word2vec` and `fastText` but is hard-coded as 8 – check the capability of your machine and adjust accordingly. Although if you want to create embeddings with different data or with different parameters, the supplied code should provide a solid starting point.
 
-NOTE: the embeddings are not included in this repo due to size limitations. They are however, available for download [here](drive.google.com) compressed.
+NOTE: the embeddings are not included in this repo due to size limitations. They are however, available for download [here](zenodo.org/record/802965) compressed.
 
 ### 3. Processing labeled data for fastText
 
@@ -65,4 +69,4 @@ NOTE: This script is intended to be an example. Ideally cross validation should 
 
 ### Decompression of data and embeddings
 
-The bash script [`decompress_data_and_embeddings.sh`](https://github.com/vincentmajor/ctsa_prediction/blob/master/decompress_data_and_embeddings.sh) is provided to ease the use of the raw text corpus and embeddings. Simply download the compressed files from [here](drive.google.com) into the head directory and the script will decompress the four files into their correct place. The script executes in 3 minutes.
+The bash script [`decompress_data_and_embeddings.sh`](https://github.com/vincentmajor/ctsa_prediction/blob/master/decompress_data_and_embeddings.sh) is provided to ease the use of the raw text corpus and embeddings. Simply download the compressed files from [here](zenodo.org/record/802965) into the head directory and the script will decompress the four files into their correct place. The script executes in 3 minutes.
