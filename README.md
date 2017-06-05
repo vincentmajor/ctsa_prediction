@@ -2,7 +2,7 @@
 
 ## Introduction
 
-[Surkis et al.](https://translational-medicine.biomedcentral.com/articles/10.1186/s12967-016-0992-8) presented a novelmethod to label biomedical research along a translational spectrum from basic science through animal and human studies into population studies. The manual labeling process is incredibly laborious; the authors used bag-of-words text classfication models to predict the class of articles based on the words in their title and abstracts. The goal of this project was to improve on the performance presented by incorporating text semantics learnt in an unsupervised manner with `word2vec` or `fastText`.
+[Surkis et al.](https://translational-medicine.biomedcentral.com/articles/10.1186/s12967-016-0992-8) presented a novel method to label biomedical research along a translational spectrum from basic science through animal and human studies into population studies. The manual labeling process is incredibly laborious; the authors used bag-of-words text classification models to predict the class of articles based on the words in their title and abstracts. The goal of this project was to improve on the performance presented by incorporating text semantics learnt in an unsupervised manner with `word2vec` or `fastText`.
 
 ## Full paper
 
@@ -61,5 +61,8 @@ The bash script [`4_train_and_predict_fasttext.sh`](https://github.com/vincentma
 
 The output is a well formatted csv file of predicted probabilities, one figure of ROCs, and a csv file of AUCs.
 
-NOTE: This script is indended to be an example. Ideally cross validation should be used and these scripts can be modified to do so.
+NOTE: This script is intended to be an example. Ideally cross validation should be used and these scripts can be modified to do so.
 
+### Decompression of data and embeddings
+
+The bash script [`decompress_data_and_embeddings.sh`](https://github.com/vincentmajor/ctsa_prediction/blob/master/decompress_data_and_embeddings.sh) is provided to ease the use of the raw text corpus and embeddings. Simply download the compressed files from [here](drive.google.com) into the head directory and the script will decompress the four files into their correct place. The script executes in 3 minutes.
